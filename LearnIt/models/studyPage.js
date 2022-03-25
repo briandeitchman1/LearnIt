@@ -17,6 +17,9 @@ const multChoiceSchema = new mongoose.Schema({
     answer: String
 })
 const studyPageSchema = new mongoose.Schema({
+    owner: String,
+    title: String,
+    subject: String,
     flashCard: [flashCardSchema],
     multChoice: [multChoiceSchema]
 })

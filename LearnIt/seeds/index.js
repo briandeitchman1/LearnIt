@@ -28,7 +28,10 @@ async function main() {
     // })
     const newStudyPage = new StudyPage({
     })
+    newStudyPage.title = "Test title";
+    newStudyPage.owner = "Brian";
     for (let i = 0; i < 5; i++) {
+        newStudyPage.subject = "Bio";
         newStudyPage.flashCard.push({
             term: "homeostasis",
             definition: "any self-regulating process by which biological systems tend to maintain stability while adjusting to conditions that are optimal for survival."
