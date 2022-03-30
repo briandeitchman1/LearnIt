@@ -1,11 +1,5 @@
 const mongoose = require('mongoose')
-//mongoose.connect('mongodb://localhost:27017/test');
 
-// const flashCardSchema = new mongoose.Schema({
-//     front: String,
-//     back: String
-// })
-// const FlashCard = mongoose.model('FlashCard', flashCardSchema);
 
 const flashCardSchema = new mongoose.Schema({
     term: String,
