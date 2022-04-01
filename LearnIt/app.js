@@ -8,6 +8,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
+const methodOverride = require("method-override");
 
 const crypto = require('crypto');
 
@@ -47,7 +48,7 @@ app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     return next();
 })
-
+app.use(methodOverride("_method"));
 
 const testData = "I sent this data from my JS file"
 app.get('/home', (req, res) => {
@@ -119,8 +120,42 @@ app.get("/study/:id", async (req, res) => {
     const studyPage = await StudyPage.findById(req.params.id);
     res.render("show", { studyPage });
 })
+app.get("/study/:id/edit", async (req, res) => {
+    const studyPage = await StudyPage.findById(req.params.id);
+    res.render("edit", { studyPage });
+})
+app.put("/study/:id", async (req, res) => {
+    //res.send("it worked")
+    const { id } = req.params
+    const { flashCardTerm, flashCardDefinition, multChoiceQuestion, multChoiceOption1, multChoiceOption2, multChoiceOption3, multChoiceOption4, multChoiceAnswer, title, subject } = req.body;
+    const studyPage = await StudyPage.findById(id);
+    studyPage.title = title;
+    studyPage.subject = subject;
+    // because the user can create as many flashcards and questions as they want
+    // we need to loop through the data and push it into the arrays in the model
+    for (let i = 0; i < flashCardTerm.length; i++) {
+        studyPage.flashCard.push({
+            term: flashCardTerm[i],
+            definition: flashCardDefinition[i]
+        })
+    }
+    for (let i = 0; i < multChoiceQuestion.length; i++) {
+        // in model options is an array but we get the options from the form in 4 different variables so
+        // we need to combine them to work with our model
+        let newOptions = [];
+        newOptions.push(multChoiceOption1[i], multChoiceOption2[i], multChoiceOption3[i], multChoiceOption4[i])
+        studyPage.multChoice.push({
+            question: multChoiceQuestion[i],
+            options: newOptions,
+            answer: multChoiceAnswer[i]
+        })
+    }
+    await studyPage.save();
+    console.log(id)
 
-
+    req.flash("success", "Successfully updated Study page");
+    res.redirect(`/study/${id}`)
+})
 app.listen(port, () => {
     console.log("listening on port 3000")
 })
