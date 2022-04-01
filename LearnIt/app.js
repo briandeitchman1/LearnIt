@@ -24,6 +24,7 @@ app.set('view engine', 'ejs')
 
 //serves files from the static path /view
 app.use('/views', express.static(path.join(__dirname, 'views')))
+app.use('/controller', express.static(path.join(__dirname, 'controller')))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -49,7 +50,7 @@ app.use((req, res, next) => {
 
 
 const testData = "I sent this data from my JS file"
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
     let views
     if (req.session.page_views) {
         views = req.session.page_views++;
@@ -61,18 +62,18 @@ app.get('/', (req, res) => {
     res.cookie('name', 'Brian')
     res.render('home', { testData, views })
 })
-app.get('/home', (req, res) => {
-    res.render('home', { testData })
+app.get('/', (req, res) => {
+    res.redirect('/home')
 })
 app.get("/about", (req, res) => {
     res.render('about')
 })
-app.get("/show", async (req, res) => {
-    const data = await StudyPage.find();
+// app.get("/show", async (req, res) => {
+//     const data = await StudyPage.find();
 
-    res.render('show', { data })
-    //res.send(data)
-})
+//     res.render('show', { data })
+//     //res.send(data)
+// })
 app.get("/new", (req, res) => {
     res.render('new')
 })
@@ -110,10 +111,16 @@ app.post("/new", async (req, res) => {
 
     res.redirect("/index")
 })
-app.get("/index", async (req, res) => {
+app.get("/study", async (req, res) => {
     const studyPages = await StudyPage.find();
     res.render("index", { studyPages })
 })
+app.get("/study/:id", async (req, res) => {
+    const studyPage = await StudyPage.findById(req.params.id);
+    res.render("show", { studyPage });
+})
+
+
 app.listen(port, () => {
     console.log("listening on port 3000")
 })
