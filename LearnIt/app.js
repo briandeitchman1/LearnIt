@@ -156,6 +156,32 @@ app.put("/study/:id", async (req, res) => {
     req.flash("success", "Successfully updated Study page");
     res.redirect(`/study/${id}`)
 })
+
+app.get("/study/:id/delete", async (req, res) => {
+    const studyPage = await StudyPage.findById(req.params.id);
+    res.render("delete", { studyPage });
+})
+app.delete("/study/:id", async (req, res) => {
+    console.log("yo we at the delete section")
+    studyPage = await StudyPage.findByIdAndDelete(req.params.id);
+    res.redirect("/study")
+
+})
+app.patch("/study/:id", async (req, res) => {
+    const { deleteCards, deleteMult } = req.body;
+    studyPage = await StudyPage.findById(req.params.id);
+    //TODO loop through studypage deleting any matching ids 
+    if (deleteCards) {
+        await studyPage.updateOne({ $pull: { flashCard: { _id: { $in: deleteCards } } } })
+    }
+    if (deleteMult) {
+        await studyPage.updateOne({ $pull: { multChoice: { _id: { $in: deleteMult } } } })
+    }
+    console.log(req.body);
+    console.log(studyPage);
+    req.flash("success", "Successfully updated study page!");
+    res.redirect(`/study/${req.params.id}`)
+})
 app.listen(port, () => {
     console.log("listening on port 3000")
 })

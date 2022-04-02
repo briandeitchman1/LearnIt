@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New study sheet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>DELETE PAGE</h1>
+        <form action="/study/<%=studyPage._id%>?_method=DELETE" method="POST">
+            <div class="mb-3">
+                <button class="btn btn-danger">Delete the whole page</button>
+            </div>
+        </form>
+
+
+        <form action="/study/<%=studyPage._id%>?_method=PATCH" method="POST">
+            <% if(studyPage.flashCard.length) {%>
+                <% studyPage.flashCard.forEach( function(card,i){ %>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= card.term %>
+                            </h5>
+                            <div class="card-text ">
+                                <%= card.definition %>
+                            </div>
+                        </div>
+                        <div class="form-check-inline">
+                            <label for="flashcard-<%=i%>">Delete?</label>
+                            <input type="checkbox" id="flashcard-<%=i%>" name="deleteCards[]" value="<%=card._id%>">
+                        </div>
+                    </div>
+
+                    <%}); %>
+                        <% }%>
+
+
+                            <br>
+
+                            <% studyPage.multChoice.forEach((mult,i)=>{ %>
+                                <div class="row  border">
+                                    <div class="col border">
+                                        Question
+                                    </div>
+                                    <div class="col border">
+                                        Options
+                                    </div>
+                                    <div class="col border">
+                                        Answer
+                                    </div>
+                                </div>
+                                <div class="row mb-3 border">
+                                    <div class="col border">
+                                        <%= mult.question %>
+                                    </div>
+                                    <div class="col border">
+                                        <%= mult.options %>
+                                    </div>
+                                    <div class="col border">
+                                        <%= mult.answer %>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <label for="mult-<%=i%>">Delete?</label>
+                                        <input type="checkbox" id="mult-<%=i%>" name="deleteMult[]"
+                                            value="<%=mult._id%>">
+                                    </div>
+                                </div>
+                                <% }); %>
+
+                                    <button class="btn btn-info"> delete flashcards/questions </button>
+        </form>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
