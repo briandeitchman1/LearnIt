@@ -9,6 +9,11 @@ const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user");
+const { isLoggedIn } = require("./middleware");
+const ejsMate = require("ejs-mate");
 
 const crypto = require('crypto');
 
@@ -21,6 +26,7 @@ mongoose.connect('mongodb://localhost:27017/test')
 
 
 //lets us use ejs with express
+app.engine("ejs", ejsMate);
 app.set('view engine', 'ejs')
 
 //serves files from the static path /view
@@ -46,9 +52,17 @@ app.use((req, res, next) => {
     //views will have access to anything in locals
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
+    res.locals.currentUser = req.user;
     return next();
 })
 app.use(methodOverride("_method"));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 const testData = "I sent this data from my JS file"
 app.get('/home', (req, res) => {
@@ -75,10 +89,10 @@ app.get("/about", (req, res) => {
 //     res.render('show', { data })
 //     //res.send(data)
 // })
-app.get("/new", (req, res) => {
+app.get("/new", isLoggedIn, (req, res) => {
     res.render('new')
 })
-app.post("/new", async (req, res) => {
+app.post("/new", isLoggedIn, async (req, res) => {
     const { flashCardTerm, flashCardDefinition, multChoiceQuestion, multChoiceOption1, multChoiceOption2, multChoiceOption3, multChoiceOption4, multChoiceAnswer, title, subject } = req.body;
     const newStudyPage = new StudyPage();
     newStudyPage.title = title;
@@ -120,11 +134,11 @@ app.get("/study/:id", async (req, res) => {
     const studyPage = await StudyPage.findById(req.params.id);
     res.render("show", { studyPage });
 })
-app.get("/study/:id/edit", async (req, res) => {
+app.get("/study/:id/edit", isLoggedIn, async (req, res) => {
     const studyPage = await StudyPage.findById(req.params.id);
     res.render("edit", { studyPage });
 })
-app.put("/study/:id", async (req, res) => {
+app.put("/study/:id", isLoggedIn, async (req, res) => {
     //res.send("it worked")
     const { id } = req.params
     const { flashCardTerm, flashCardDefinition, multChoiceQuestion, multChoiceOption1, multChoiceOption2, multChoiceOption3, multChoiceOption4, multChoiceAnswer, title, subject } = req.body;
@@ -157,11 +171,11 @@ app.put("/study/:id", async (req, res) => {
     res.redirect(`/study/${id}`)
 })
 
-app.get("/study/:id/delete", async (req, res) => {
+app.get("/study/:id/delete", isLoggedIn, async (req, res) => {
     const studyPage = await StudyPage.findById(req.params.id);
     res.render("delete", { studyPage });
 })
-app.delete("/study/:id", async (req, res) => {
+app.delete("/study/:id", isLoggedIn, async (req, res) => {
     console.log("yo we at the delete section")
     studyPage = await StudyPage.findByIdAndDelete(req.params.id);
     res.redirect("/study")
@@ -170,7 +184,7 @@ app.delete("/study/:id", async (req, res) => {
 app.patch("/study/:id", async (req, res) => {
     const { deleteCards, deleteMult } = req.body;
     studyPage = await StudyPage.findById(req.params.id);
-    //TODO loop through studypage deleting any matching ids 
+    // loops through studypage deleting any matching ids 
     if (deleteCards) {
         await studyPage.updateOne({ $pull: { flashCard: { _id: { $in: deleteCards } } } })
     }
@@ -182,6 +196,41 @@ app.patch("/study/:id", async (req, res) => {
     req.flash("success", "Successfully updated study page!");
     res.redirect(`/study/${req.params.id}`)
 })
+
+
+app.get("/register", (req, res) => {
+    res.render("users/register")
+})
+app.post("/register", async (req, res) => {
+    try {
+        const { email, username, password } = req.body;
+        const user = new User({ email, username });
+        const registeredUser = await User.register(user, password);
+        console.log(registeredUser)
+        req.flash("success", "welcome to LearnIt");
+        res.redirect("/study")
+    } catch (err) {
+        req.flash("error", err.message);
+        res.redirect('register')
+    }
+
+})
+app.get("/login", (req, res) => {
+    res.render("users/login");
+})
+app.post("/login", passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), async (req, res) => {
+    req.flash("success", "Welcome back!");
+    res.redirect("/study");
+})
+app.get('/logout', (req, res) => {
+    req.logout();
+    req.flash("success", "Goodbye!")
+    res.redirect('/study')
+})
+
+
+
+
 app.listen(port, () => {
     console.log("listening on port 3000")
 })
