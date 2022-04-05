@@ -29,7 +29,7 @@ async function main() {
     const newStudyPage = new StudyPage({
     })
     newStudyPage.title = "Test title";
-    newStudyPage.owner = "Brian";
+    newStudyPage.owner = "624c9552352c91ce1930a024";
     for (let i = 0; i < 5; i++) {
         newStudyPage.subject = "Bio";
         newStudyPage.flashCard.push({

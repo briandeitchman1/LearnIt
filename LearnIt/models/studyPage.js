@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const User = require("./user")
 
 const flashCardSchema = new mongoose.Schema({
     term: String,
@@ -11,7 +11,10 @@ const multChoiceSchema = new mongoose.Schema({
     answer: String
 })
 const studyPageSchema = new mongoose.Schema({
-    owner: String,
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     title: String,
     subject: String,
     flashCard: [flashCardSchema],

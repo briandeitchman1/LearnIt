@@ -97,7 +97,7 @@ app.post("/new", isLoggedIn, async (req, res) => {
     const newStudyPage = new StudyPage();
     newStudyPage.title = title;
     newStudyPage.subject = subject;
-    //newStudyPage.owner = owner
+    newStudyPage.owner = req.user._id;
 
     // because the user can create as many flashcards and questions as they want
     // we need to loop through the data and push it into the arrays in the model
@@ -120,18 +120,26 @@ app.post("/new", isLoggedIn, async (req, res) => {
 
     }
     await newStudyPage.save();
+
+    // push onto studyPage array on user model
+    const user = await User.findById(req.user._id);
+    user.studyPages.push(newStudyPage._id);
+    await user.save();
+    //
     console.log(req.body);
+    console.log(req.user._id);
 
     req.flash("success", "Successfully made a new Study page");
 
-    res.redirect("/index")
+    res.redirect("/study")
 })
 app.get("/study", async (req, res) => {
     const studyPages = await StudyPage.find();
     res.render("index", { studyPages })
 })
 app.get("/study/:id", async (req, res) => {
-    const studyPage = await StudyPage.findById(req.params.id);
+    const studyPage = await StudyPage.findById(req.params.id).populate('owner');
+    console.log(studyPage);
     res.render("show", { studyPage });
 })
 app.get("/study/:id/edit", isLoggedIn, async (req, res) => {
@@ -228,7 +236,10 @@ app.get('/logout', (req, res) => {
     res.redirect('/study')
 })
 
-
+app.get("/user/:id", async (req, res) => {
+    const user = await User.findById(req.params.id).populate('studyPages');
+    res.render("users/profile", { user });
+})
 
 
 app.listen(port, () => {

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
+const StudyPage = require("./studyPage");
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -7,7 +8,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    studyPages: [String]
+    studyPages: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'StudyPage'
+    }]
 
 })
 // adds a field for username and password and methods
