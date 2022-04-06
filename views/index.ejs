@@ -1,0 +1,14 @@
+<% layout("./layouts/boilerplate") %>
+    <% for( let studyPage of studyPages) { %>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%=studyPage.title%>
+                </h5>
+                <p class="card-text">
+                    <%= studyPage.subject %>
+                </p>
+                <a href="./study/<%= studyPage._id %>" class="btn btn-primary">Go to page</a>
+            </div>
+        </div>
+        <% } %>
