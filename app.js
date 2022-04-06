@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require('express');
 const app = express();
-const port = 3000;
 const path = require("path");
 const mongoose = require("mongoose");
 const StudyPage = require("./models/studyPage");
@@ -273,7 +272,7 @@ app.get("/user/:id", async (req, res) => {
     res.render("users/profile", { user });
 })
 
-
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log("listening on port 3000")
+    console.log(`listening on port ${port}`)
 })
