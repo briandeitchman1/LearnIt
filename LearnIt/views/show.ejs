@@ -17,8 +17,11 @@
             <a href="/user/<%=studyPage.owner._id%>" class="card-subtitle mb-2 text-muted d-block">By: <%=
                     studyPage.owner.username %>
             </a>
-            <a href="/study/<%=studyPage._id%>/edit">edit page</a>
-            <a href="/study/<%=studyPage._id%>/delete">delete flashcards/questions </a>
+
+            <% if(currentUser && studyPage.owner.equals(currentUser) ){ %>
+                <a href="/study/<%=studyPage._id%>/edit">edit page</a>
+                <a href="/study/<%=studyPage._id%>/delete">delete flashcards/questions </a>
+                <% } %>
         </div>
     </div>
     <% for(let flashCard of studyPage.flashCard){ %>
