@@ -14,16 +14,20 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const { isLoggedIn, isAuthor } = require("./middleware");
 const ejsMate = require("ejs-mate");
+const dbUrl = process.env.DB_URL;
 
-const crypto = require('crypto');
 
 // TODO: change from test to a better name later
-mongoose.connect('mongodb://localhost:27017/test')
+// mongoose.connect('mongodb://localhost:27017/test')
+//     .catch(err => {
+//         console.log("failed to connect to DB")
+//         console.log(err)
+//     })
+mongoose.connect(dbUrl)
     .catch(err => {
         console.log("failed to connect to DB")
         console.log(err)
     })
-
 
 //lets us use ejs with express
 app.engine("ejs", ejsMate);
