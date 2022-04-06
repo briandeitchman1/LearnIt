@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
+
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -5,7 +9,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const StudyPage = require("./models/studyPage");
 const session = require("express-session");
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo")
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
@@ -14,20 +18,19 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const { isLoggedIn, isAuthor } = require("./middleware");
 const ejsMate = require("ejs-mate");
-const dbUrl = process.env.DB_URL;
 
 
-// TODO: change from test to a better name later
-// mongoose.connect('mongodb://localhost:27017/test')
-//     .catch(err => {
-//         console.log("failed to connect to DB")
-//         console.log(err)
-//     })
+
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/test';
+const secret = process.env.SECRET || "thisshouldbeabettersecret!";
+
+
 mongoose.connect(dbUrl)
     .catch(err => {
         console.log("failed to connect to DB")
         console.log(err)
     })
+
 
 //lets us use ejs with express
 app.engine("ejs", ejsMate);
@@ -39,8 +42,23 @@ app.use('/controller', express.static(path.join(__dirname, 'controller')))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: secret,
+    }
+});
+
+store.on("error", function (e) {
+    console.log("Session store error", e)
+})
+
 const sessionOptions = {
-    secret: "foo",
+    store: store,
+    name: "session",
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -70,31 +88,29 @@ app.use((req, res, next) => {
 })
 
 
-const testData = "I sent this data from my JS file"
+// const testData = "I sent this data from my JS file"
+// app.get('/home', (req, res) => {
+//     let views
+//     if (req.session.page_views) {
+//         views = req.session.page_views++;
+//     } else {
+//         req.session.page_views = 1;
+//         views = 1;
+//     }
+//     //sends cookie take this out later
+//     res.cookie('name', 'Brian')
+//     res.render('home', { testData, views })
+// })
 app.get('/home', (req, res) => {
-    let views
-    if (req.session.page_views) {
-        views = req.session.page_views++;
-    } else {
-        req.session.page_views = 1;
-        views = 1;
-    }
-    //sends cookie take this out later
-    res.cookie('name', 'Brian')
-    res.render('home', { testData, views })
+    res.redirect('/study')
 })
 app.get('/', (req, res) => {
-    res.redirect('/home')
+    res.redirect('/study')
 })
 app.get("/about", (req, res) => {
     res.render('about')
 })
-// app.get("/show", async (req, res) => {
-//     const data = await StudyPage.find();
 
-//     res.render('show', { data })
-//     //res.send(data)
-// })
 app.get("/new", isLoggedIn, (req, res) => {
     res.render('new')
 })
