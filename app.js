@@ -17,7 +17,7 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const { isLoggedIn, isAuthor } = require("./middleware");
 const ejsMate = require("ejs-mate");
-
+const mongoSanitize = require("express-mongo-sanitize");
 
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/test';
@@ -29,7 +29,11 @@ mongoose.connect(dbUrl)
         console.log("failed to connect to DB")
         console.log(err)
     })
-
+// mongoose.connect('mongodb://localhost:27017/test')
+//     .catch(err => {
+//         console.log("failed to connect to DB")
+//         console.log(err)
+//     })
 
 //lets us use ejs with express
 app.engine("ejs", ejsMate);
@@ -38,6 +42,7 @@ app.set('view engine', 'ejs')
 //serves files from the static path /view
 app.use('/views', express.static(path.join(__dirname, 'views')))
 app.use('/controller', express.static(path.join(__dirname, 'controller')))
+app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -67,6 +72,7 @@ const sessionOptions = {
     }
 
 }
+app.use(mongoSanitize());
 app.use(session(sessionOptions));
 app.use(flash());
 
@@ -86,20 +92,6 @@ app.use((req, res, next) => {
     return next();
 })
 
-
-// const testData = "I sent this data from my JS file"
-// app.get('/home', (req, res) => {
-//     let views
-//     if (req.session.page_views) {
-//         views = req.session.page_views++;
-//     } else {
-//         req.session.page_views = 1;
-//         views = 1;
-//     }
-//     //sends cookie take this out later
-//     res.cookie('name', 'Brian')
-//     res.render('home', { testData, views })
-// })
 app.get('/home', (req, res) => {
     res.redirect('/study')
 })
@@ -109,9 +101,9 @@ app.get('/', (req, res) => {
 app.get("/about", (req, res) => {
     res.render('about')
 })
-
+subjects = ["art", "biology", "chemistry", "english", "math", "nursing", "science", "other"]
 app.get("/new", isLoggedIn, (req, res) => {
-    res.render('new')
+    res.render('new', { subjects });
 })
 app.post("/new", isLoggedIn, async (req, res) => {
     const { flashCardTerm, flashCardDefinition, multChoiceQuestion, multChoiceOption1, multChoiceOption2, multChoiceOption3, multChoiceOption4, multChoiceAnswer, title, subject } = req.body;
@@ -165,7 +157,7 @@ app.get("/study/:id", async (req, res) => {
 })
 app.get("/study/:id/edit", isLoggedIn, isAuthor, async (req, res) => {
     const studyPage = await StudyPage.findById(req.params.id);
-    res.render("edit", { studyPage });
+    res.render("edit", { studyPage, subjects });
 })
 app.put("/study/:id", isLoggedIn, isAuthor, async (req, res) => {
     //res.send("it worked")
@@ -271,6 +263,13 @@ app.get("/user/:id", async (req, res) => {
     const user = await User.findById(req.params.id).populate('studyPages');
     res.render("users/profile", { user });
 })
+
+
+app.use((req, res) => {
+    res.status(404).render("notfound")
+})
+
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

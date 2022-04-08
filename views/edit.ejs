@@ -8,8 +8,15 @@
             <input type="text" class="form-control" id="title" name="title" value="<%=studyPage.title%>">
         </div>
         <div class="mb-3">
-            <label for="subject">Subject</label>
-            <input type="text" class="form-control" id="subject" name="subject" value="<%=studyPage.subject%>">
+            <label for="subject" class="form-label">Subject</label>
+            <select class="form-select" name="subject" id="subject">
+                <option selected> Pick a subject</option>
+                <% for(let subject of subjects){ %>
+                    <option value="<%= subject %>">
+                        <%= subject %>
+                    </option>
+                    <% } %>
+            </select>
         </div>
         <hr>
         <br>
