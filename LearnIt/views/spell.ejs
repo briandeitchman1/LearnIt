@@ -1,0 +1,29 @@
+<% layout("./layouts/boilerplate") %>
+    <h1>spelling bee</h1>
+    <div class="mb-3">
+        <label for="voices" class="form-label">select voice</label>
+        <select id="voices" class="form-select"></select>
+
+    </div>
+    <div class="mb-3">
+        <label for="volume">volume</label>
+        <input type="range" min="0" max="1" value="1" step="0.1" id="volume" />
+        <label for="rate">Rate</label>
+        <input type="range" min="0.1" max="10" value="1" id="rate" step="0.1" />
+        <label for="pitch">Pitch</label>
+        <input type="range" min="0" max="2" value="1" step="0.1" id="pitch" />
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" id="sayWord">Hear the word</button>
+        <button class="btn btn-info" id="sayDef">Hear the definition</button>
+    </div>
+    <div class="mb-3">
+        <label for="wordInput" class="form-label">Spell here</label>
+        <input type="text" class="form-control" id="wordInput" name="wordInput">
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" id="checkWord">Check word</button>
+        <button class="btn btn-danger" id="newWord">Skip word</button>
+    </div>
+
+    <script type="module" src="../controller/spelling.js"></script>

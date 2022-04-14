@@ -19,16 +19,18 @@ const { isLoggedIn, isAuthor } = require("./middleware");
 const ejsMate = require("ejs-mate");
 const mongoSanitize = require("express-mongo-sanitize");
 
-
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/test';
 const secret = process.env.SECRET || "thisshouldbeabettersecret!";
 
-
+// This is the production DB
 mongoose.connect(dbUrl)
     .catch(err => {
         console.log("failed to connect to DB")
         console.log(err)
     })
+
+//this is the local DB for development
+
 // mongoose.connect('mongodb://localhost:27017/test')
 //     .catch(err => {
 //         console.log("failed to connect to DB")
@@ -263,7 +265,10 @@ app.get("/user/:id", async (req, res) => {
     const user = await User.findById(req.params.id).populate('studyPages');
     res.render("users/profile", { user });
 })
+app.get("/spell", (req, res) => {
+    res.render("spell")
 
+})
 
 app.use((req, res) => {
     res.status(404).render("notfound")
