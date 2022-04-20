@@ -269,7 +269,9 @@ app.get("/spell", (req, res) => {
     res.render("spell")
 
 })
-
+app.get("/simonsays", (req, res) => {
+    res.render("simonsays");
+})
 app.use((req, res) => {
     res.status(404).render("notfound")
 })
