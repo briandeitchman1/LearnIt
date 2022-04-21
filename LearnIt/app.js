@@ -45,6 +45,7 @@ app.set('view engine', 'ejs')
 app.use('/views', express.static(path.join(__dirname, 'views')))
 app.use('/controller', express.static(path.join(__dirname, 'controller')))
 app.use('/images', express.static(path.join(__dirname, 'images')))
+app.use('/sounds', express.static(path.join(__dirname, 'sounds')))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
