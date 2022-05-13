@@ -1,0 +1,64 @@
+<% layout("./layouts/boilerplate") %>
+    <style>
+        .simon {
+            width: 200px;
+            height: 200px;
+            max-height: 200px;
+            max-width: 200px;
+
+        }
+
+        #simon1 {
+            background-color: rgba(62, 159, 233, 1);
+            border-top-left-radius: 50%;
+        }
+
+        #simon2 {
+            background-color: rgba(231, 222, 95, 1);
+            border-top-right-radius: 50%;
+        }
+
+        #simon3 {
+            background-color: rgba(95, 231, 95, 1);
+            border-bottom-left-radius: 50%;
+        }
+
+        #simon4 {
+            background-color: rgba(233, 62, 73, 1);
+            border-bottom-right-radius: 50%;
+        }
+    </style>
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <h1>Simon Says</h1>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col simon" id="simon1">
+
+        </div>
+        <div class="col simon" id="simon2">
+
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col simon" id="simon3">
+
+        </div>
+        <div class="col simon" id="simon4">
+
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-2">
+            <button class="btn btn-primary" id="start">start</button>
+            <button class="btn btn-danger" id="restart">restart</button>
+        </div>
+
+        <div class="col-2 mb-3">
+            <label for="volume" class="form-label">volume</label>
+            <input type="range" min="0" max="1" value=".5" step="0.1" id="volume">
+        </div>
+    </div>
+    <script src="../controller/simonsays.js"></script>
