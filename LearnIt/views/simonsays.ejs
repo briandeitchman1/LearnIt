@@ -28,8 +28,13 @@
             border-bottom-right-radius: 50%;
         }
     </style>
-    <h1>simon says</h1>
-    <div class="row">
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <h1>Simon Says</h1>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
         <div class="col simon" id="simon1">
 
         </div>
@@ -37,7 +42,7 @@
 
         </div>
     </div>
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col simon" id="simon3">
 
         </div>
@@ -45,11 +50,15 @@
 
         </div>
     </div>
-    <button class="btn btn-primary" id="start">start</button>
-    <button class="btn btn-danger" id="restart">restart</button>
-    <div class="mb-3">
-        <label for="volume" class="form-label">volume</label>
-        <input type="range" min="0" max="1" value=".5" step="0.1" id="volume">
-    </div>
+    <div class="row justify-content-center">
+        <div class="col-2">
+            <button class="btn btn-primary" id="start">start</button>
+            <button class="btn btn-danger" id="restart">restart</button>
+        </div>
 
+        <div class="col-2 mb-3">
+            <label for="volume" class="form-label">volume</label>
+            <input type="range" min="0" max="1" value=".5" step="0.1" id="volume">
+        </div>
+    </div>
     <script src="../controller/simonsays.js"></script>

@@ -22,7 +22,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/test';
 const secret = process.env.SECRET || "thisshouldbeabettersecret!";
 
-// This is the production DB
+// // This is the production DB
 mongoose.connect(dbUrl)
     .catch(err => {
         console.log("failed to connect to DB")
@@ -46,6 +46,7 @@ app.use('/views', express.static(path.join(__dirname, 'views')))
 app.use('/controller', express.static(path.join(__dirname, 'controller')))
 app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use('/sounds', express.static(path.join(__dirname, 'sounds')))
+app.use('/styles', express.static(path.join(__dirname, 'styles')))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -96,13 +97,14 @@ app.use((req, res, next) => {
 })
 
 app.get('/home', (req, res) => {
-    res.redirect('/study')
+    //res.redirect('/study')
+    res.render("home")
 })
 app.get('/', (req, res) => {
-    res.redirect('/study')
+    res.redirect("/study")
 })
 app.get("/about", (req, res) => {
-    res.render('about')
+    res.render("about")
 })
 subjects = ["art", "biology", "chemistry", "english", "math", "nursing", "science", "other"]
 app.get("/new", isLoggedIn, (req, res) => {
@@ -163,7 +165,6 @@ app.get("/study/:id/edit", isLoggedIn, isAuthor, async (req, res) => {
     res.render("edit", { studyPage, subjects });
 })
 app.put("/study/:id", isLoggedIn, isAuthor, async (req, res) => {
-    //res.send("it worked")
     const { id } = req.params
     const { flashCardTerm, flashCardDefinition, multChoiceQuestion, multChoiceOption1, multChoiceOption2, multChoiceOption3, multChoiceOption4, multChoiceAnswer, title, subject } = req.body;
     const studyPage = await StudyPage.findById(id);

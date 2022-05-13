@@ -1,4 +1,3 @@
-console.log("yo")
 const simon1 = document.getElementById("simon1");
 const simon2 = document.getElementById("simon2");
 const simon3 = document.getElementById("simon3");
@@ -9,7 +8,7 @@ const restart = document.getElementById("restart");
 
 
 
-
+// stores the sounds for each button
 let sounds = [];
 sounds.push(new Audio("../sounds/tone1.wav"));
 sounds.push(new Audio("../sounds/tone2.wav"));
@@ -17,21 +16,22 @@ sounds.push(new Audio("../sounds/tone3.wav"));
 sounds.push(new Audio("../sounds/tone5.wav"));
 
 
-
+// stores the starting colors
 let colors = [];
 colors.push(simon1.style.backgroundColor);
 colors.push(simon2.style.backgroundColor);
 colors.push(simon3.style.backgroundColor);
 colors.push(simon4.style.backgroundColor);
 
-
 let order = [];
 let playerOrder = [];
+
 // used to pick the next color 
 function getRand() {
     return (Math.floor(Math.random() * 4) + 1);
 
 }
+
 start.addEventListener("click", () => {
     startGame();
 })
@@ -40,13 +40,20 @@ restart.addEventListener("click", () => {
     playerOrder = [];
     startGame();
 })
+// adjusts the volume of the 4 sounds
 volume.addEventListener("change", () => {
     for (let sound of sounds) {
         sound.volume = volume.value;
     }
 })
-async function startGame() {
+// adds anothe romove to the order array and starts game
+function startGame() {
     order.push(getRand());
+    startGameHelper();
+}
+// needed this func so we can play game with out adding another move.
+// used when the player enters the wrong order
+async function startGameHelper() {
     for (let num of order) {
         await new Promise(r => setTimeout(r, 500));
         await lightUp(num).then((successMessage) => {
@@ -54,12 +61,14 @@ async function startGame() {
         })
     }
 }
+// some sounds are too long and need to be reset inorder to play correctly
 function resetSounds() {
     for (let sound of sounds) {
         sound.pause();
         sound.currentTime = 0;
     }
 }
+// plays sounds and lights up the correct button
 async function lightUp(num) {
     await new Promise(r => setTimeout(r, 500));
     resetSounds();
@@ -84,6 +93,7 @@ async function lightUp(num) {
     resetColor(500);
 
 }
+// resets to original color
 async function resetColor(time) {
     await new Promise(r => setTimeout(r, time));
     simon1.style.backgroundColor = colors[0];
@@ -91,7 +101,7 @@ async function resetColor(time) {
     simon3.style.backgroundColor = colors[2];
     simon4.style.backgroundColor = colors[3];
 }
-
+// plays sounds logs the players button click checks if correct
 simon1.addEventListener("click", () => {
     sounds[0].play();
     playerOrder.push(1);
@@ -112,11 +122,12 @@ simon4.addEventListener("click", () => {
     playerOrder.push(4);
     checkCorrect();
 })
-
+//change color while hovering
 simon1.addEventListener("mouseover", () => {
     simon1.style.backgroundColor = "blue";
 
 })
+// reset when not hovering
 simon1.addEventListener("mouseout", () => {
     simon1.style.backgroundColor = colors[0];
 })
@@ -141,7 +152,9 @@ simon4.addEventListener("mouseover", () => {
 simon4.addEventListener("mouseout", () => {
     simon4.style.backgroundColor = colors[3];
 })
-
+//checks if player has clicked the right buttons
+// if not make the buttons flash black and start the game again.
+// if correct flash green and continue.
 function checkCorrect() {
     for (let i = 0; i < playerOrder.length; i++) {
         if (playerOrder[i] !== order[i]) {
@@ -150,6 +163,7 @@ function checkCorrect() {
             flashBlack();
             resetColor(400);
             playerOrder = [];
+            startGameHelper();
             return;
         }
     }
