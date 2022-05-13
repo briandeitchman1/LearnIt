@@ -101,7 +101,7 @@ app.get('/home', (req, res) => {
     res.render("home")
 })
 app.get('/', (req, res) => {
-    res.redirect("/study")
+    res.redirect("/home")
 })
 app.get("/about", (req, res) => {
     res.render("about")
