@@ -97,7 +97,6 @@ app.use((req, res, next) => {
 })
 
 app.get('/home', (req, res) => {
-    //res.redirect('/study')
     res.render("home")
 })
 app.get('/', (req, res) => {
