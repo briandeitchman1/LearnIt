@@ -31,10 +31,11 @@ function getRand() {
     return (Math.floor(Math.random() * 4) + 1);
 
 }
-
+// onClick for start
 start.addEventListener("click", () => {
     startGame();
 })
+// onclick for Restart
 restart.addEventListener("click", () => {
     order = [];
     playerOrder = [];
@@ -101,7 +102,7 @@ async function resetColor(time) {
     simon3.style.backgroundColor = colors[2];
     simon4.style.backgroundColor = colors[3];
 }
-// plays sounds logs the players button click checks if correct
+// plays sounds and logs the players button click checks if correct
 simon1.addEventListener("click", () => {
     sounds[0].play();
     playerOrder.push(1);
@@ -174,13 +175,14 @@ function checkCorrect() {
         startGame();
     }
 }
+// make all simon says buttons flash green
 function flashGreen() {
     simon1.style.backgroundColor = "green";
     simon2.style.backgroundColor = "green";
     simon3.style.backgroundColor = "green";
     simon4.style.backgroundColor = "green";
 }
-
+// make all simon says buttons flash black
 function flashBlack() {
     simon1.style.backgroundColor = "black";
     simon2.style.backgroundColor = "black";

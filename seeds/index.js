@@ -19,6 +19,7 @@ subjects = ["art", "biology", "chemistry", "english", "math", "nursing", "scienc
 async function main() {
     //await mongoose.connect('mongodb://localhost:27017/test');
     await mongoose.connect(process.env.DB_URL);
+    // delete old DB
     await StudyPage.deleteMany({})
         .then(() => {
             console.log("data deleted")
@@ -27,6 +28,7 @@ async function main() {
             console.log("something went wrong")
             console.log(err)
         })
+    // create 20 new study pages
     for (let i = 0; i < 20; i++) {
         let rand = Math.floor(Math.random() * subjects.length)
         let newStudyPage = new StudyPage({
@@ -36,6 +38,7 @@ async function main() {
         newStudyPage.owner = deployedUserID;
         newStudyPage.subject = subjects[rand];
         console.log(subjects[rand])
+        // add the default text 5 times
         for (let i = 0; i < 5; i++) {
             newStudyPage.flashCard.push({
                 term: "homeostasis",

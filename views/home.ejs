@@ -22,18 +22,18 @@
 
         </div>
     </div>
-    <div class="myBorder row justify-content-center align-items-center fade-in">
+    <div class=" row justify-content-center align-items-center fade-in">
         <div class="col ">
             <img class="myBorder" src="../images/smile_3_10.jpg" alt="">
 
         </div>
-        <div class="col myBorder">
+        <div class="col">
             <ul>
                 <li>
                     <h2>I have a B.S. in computer science from CSU East Bay.</h2>
                 </li>
                 <li>
-                    <h2>I graduated spring 2021 with a 3.7gpa.</h2>
+                    <h2>I graduated spring 2021 with a 3.8gpa.</h2>
                 </li>
                 <li>
                     <h2>
@@ -52,20 +52,20 @@
     </div>
 
 
-    <h1 class=" fade-in my-5">Here are some projects I have worked on:</h1>
+    <h1 class=" fade-in my-5"> My projects:</h1>
     <div class="row">
         <div class="col">
             <img class="from-left slide-in" src="../images/node_js.png" alt="">
         </div>
         <div class="col from-right slide-in my-5">
-            <h2>This website was built using Node.js and express</h2>
-            <h2>it implements the CRUD system. it uses get, post, delete, patch, and put to serve webpages</h2>
+            <h2>This <a href="https://github.com/briandeitchman1/website">website</a>(github link) was built using
+                Node.js and Express, it implements the CRUD system. It uses get, post, delete, patch, and put to serve
+                webpages. MongoDB Atlas is used for the database, while Mongoose is used to add user information.
+                Registering a user and authentication are handled by the Passport API. Usernames and hasheds
+                passwords are saved to the Mongo database</h2>
         </div>
     </div>
 
-    <h2 class="fade-in">It uses MongoDB Atlas for the database. Mongoose is used to add user information to the
-        database. Registering a user and authentication are handled by the Passport API. The username and hashed
-        password are saved to the Mongo database</h2>
     <h2 class="fade-in">This website is hosted by Heroku</h2>
     <div class="row align-items-center">
         <div class="col"> <img class="fade-in" src="../images/mongoDBAtlas_50.jpg" alt=""></div>
@@ -76,11 +76,11 @@
     <div class="row my-3 fade-in align-items-center">
 
         <div class="col">
-            <h4>The orginal point of this website was to build something similar to quizlet. This site lets you
+            <h4>The original point of this website was to build something similar to quizlet. This site lets you
                 create
                 cheatsheets with flashcards and multiple choice questions that you can then use to quiz yourself
                 with.
-                You can create, edit, delete, and view these cheatsheets. All the cheatsheets are stored on a Mongo
+                You can create, edit, delete, and view these cheatsheets. All the cheatsheets are stored on the Mongo
                 database and can only be edited/deleted by the creator of the page. If you want to create a
                 cheatsheet
                 you have to make an account first and login.</h4>
@@ -97,24 +97,39 @@
     </div>
     <div class="row fade-in my-3 justify-content-center align-items-center">
         <div class="col">
-            <img src="../images/reactSite.png">
+            <a href="https://reactscrabblecheater.herokuapp.com/">
+                <img src="../images/reactScrabbleCheater_50.png">
+            </a>
         </div>
         <div class="col">
-            <h2>I've made a task tracker app that uses React.js instead of EJS.</h2>
-            <h3>React is way different than EJS but feels like it's really powerful and I would love to work with it
-                more in the future</h3>
+            <h1> <a href="https://reactscrabblecheater.herokuapp.com/">Scrabble cheating tool</a> and <a
+                    href="https://github.com/briandeitchman1/React-scrabble-cheater">github</a></h1>
+            <h3>This app uses Mongo Express React and Node (MERN). It processes a text file with almost 300,000
+                scrabble legal words into a map on the backend. The React/frontend side then uses fetch to send get
+                requests to
+                receive
+                all possible combinations of words from those letters. The state is updated to show the list of words.
+                Users can also save or delete their favorite words to the mongo database.
+            </h3>
+
         </div>
     </div>
     <div class="row justify-content-center align-items-center fade-in my-3">
         <div class="col">
-            <h2>The React syntax is closer to HTML which I think makes it easier to work with and faster to type than
-                EJS.</h2>
-            <h3>I really like the reusable components that you work with in React. You can pass down data from parent to
-                child components with props, which allows you to make components that can be reused for many different
-                jobs. </h3>
+            <h1> <a href="https://brianscal.herokuapp.com/">React Calculator</a> and <a
+                    href="https://github.com/briandeitchman1/React-Calculator">github</a></h1>
+            <h3> The hardest part about making the calculator was making the order of operations work correctly. The
+                best way to do this was to convert the equation from infix notation to postfix using the <a
+                    href="https://en.wikipedia.org/wiki/Shunting_yard_algorithm">Shunting yard algorithm</a>. The
+                algorithm requires you to push and pop the digits and operators on to a stack and a queue
+                until you have them in the correct order. The algorithm was a little tricky to implement and I consider
+                it the coolest part of the calculator. The calculators body is mostly made of reusable button
+                components. The Top screen and Answer History use State to store the numbers.</h3>
         </div>
         <div class="col">
-            <img src="../images/reactCode.png" alt="">
+            <a href="https://brianscal.herokuapp.com/">
+                <img src="../images/reactCalculator.png" alt="">
+            </a>
         </div>
     </div>
     <div class="row justify-content-center">
@@ -148,7 +163,7 @@
     </div>
     <div class="row">
         <div class="col fade-in">
-            <h2>Another fun little project on this website is the game Simon Says. Each color has a different sound
+            <h2>The last project on this website is the game Simon Says. Each color has a different sound
                 effect that plays when clicked. All squares flash green when you get the sequence correct and black
                 when you get it wrong.</h2>
         </div>
