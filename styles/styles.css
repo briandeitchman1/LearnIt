@@ -1,6 +1,8 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background: url(../images/floor-tile.png);
+    /* background: url(../images/floor-tile.png); */
+    background-color: #212529;
+    color: #b9bdc0;
 }
 
 .fade-in {
@@ -36,5 +38,11 @@ body {
 }
 
 .myBorder {
-    border: thick solid darkgrey
+    border-radius: 20px;
+}
+
+.myImg {
+    width: 400px;
+    height: 300px;
+    border-radius: 10px;
 }

@@ -1,4 +1,4 @@
-<% layout("./layouts/boilerplate") %>
+<% layout("./layouts/darkModeBP") %>
 
     <h1>Add to Study sheet</h1>
 
@@ -30,7 +30,8 @@
                 <input type="text" class="form-control" id="flashCardDefinition" name="flashCardDefinition[]">
             </div>
         </div>
-        <button class="btn btn-info" type="button" onclick="makeNewFlashCard()">next flash card</button>
+        <button id="trueOrFalseBtn" class="btn btn-info" type="button">next flash
+            card</button>
         <div id="multChoice">
             <div class="mb-3">
                 <label for="multChoiceQuestion" class="form-label">Question</label>
@@ -48,7 +49,7 @@
                 <input type="text" class="form-control" id="multChoiceAnswer" name="multChoiceAnswer[]">
             </div>
         </div>
-        <button class="btn btn-info" type="button" id="newQuestion" onclick="makeNewQuestion()">next
+        <button class="btn btn-info" type="button" id="multChoiceBtn">next
             question</button>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -56,21 +57,8 @@
 
 
     <a href="/study/<%=studyPage._id%>">studyPage</a>
-
-    <script src="../controller/new.js"></script>
-    <script>
-        function makeNewQuestion() {
-            let clone = multChoice.cloneNode(true);
-            clone.id = "multChoice2"
-            multChoice.after(clone);
-            console.log("yo")
-        }
-
-        function makeNewFlashCard() {
-            let clone = flashCard.cloneNode(true);
-            clone.id = "flashCard2"
-            console.log(clone.children);
-            flashCard.after(clone);
-            console.log("yo")
-        }
-    </script>
+    <!-- This is the wrong path it goes out 1 too many files but it works?
+         in new.ejs I use ../controller/makeQuestion.js and that works there.
+         They're in the same folder this makes no sense.
+    -->
+    <script src="../../controller/makeQuestion.js"></script>

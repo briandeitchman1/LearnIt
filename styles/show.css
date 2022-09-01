@@ -1,0 +1,63 @@
+ body {
+     background-color: #212529;
+ }
+
+ .card-body {
+     background-color: slategray;
+     border: 2px solid peachpuff;
+ }
+
+
+ .question-container {
+
+     background-color: slategray;
+     border: 2px solid peachpuff;
+     display: flex;
+     justify-content: flex-start;
+     gap: 10px;
+     padding: 10px;
+
+ }
+
+ .mb {
+     margin-bottom: 10px;
+ }
+
+ .text-container {
+     display: flex;
+     justify-content: flex-start;
+     background-color: slategray;
+     border: 2px solid peachpuff;
+     gap: 10px;
+     padding: 10px;
+
+ }
+
+ .item1 {
+     flex: 1;
+
+ }
+
+ .item2 {
+     flex: 1;
+ }
+
+ .text {
+     text-decoration: none;
+     color: #212529;
+ }
+
+ .text:hover {
+     color: #51575c;
+ }
+
+ .peach {
+     background-color: peachpuff;
+     /* width: 74vw; */
+ }
+
+ .slategray {
+     background-color: slategray;
+     border: 2px peachpuff solid;
+
+ }

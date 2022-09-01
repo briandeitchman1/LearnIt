@@ -1,5 +1,4 @@
-<% layout("./layouts/boilerplate") %>
-
+<% layout("./layouts/showPageBP") %>
 
     <div class="card my-3">
         <div class="card-body">
@@ -14,13 +13,13 @@
                     <%= studyPage.subject %>
                 </h3>
             </div>
-            <a href="/user/<%=studyPage.owner._id%>" class="card-subtitle mb-2 text-muted d-block">By: <%=
+            <a href="/user/<%=studyPage.owner._id%>" class="card-subtitle mb-2  d-block card-text text">By: <%=
                     studyPage.owner.username %>
             </a>
 
             <% if(currentUser && studyPage.owner.equals(currentUser) ){ %>
-                <a href="/study/<%=studyPage._id%>/edit">Add to page</a>
-                <a href="/study/<%=studyPage._id%>/delete">delete flashcards/questions </a>
+                <a class="text" href="/study/<%=studyPage._id%>/edit">Add to page</a>
+                <a class="text" href="/study/<%=studyPage._id%>/delete">delete flashcards/questions </a>
                 <% } %>
         </div>
     </div>
@@ -40,31 +39,24 @@
 
 
             <br>
+
             <% for(let multChoice of studyPage.multChoice ) { %>
-
-                <div class="row  border">
-                    <div class="col border">
-                        Question
-                    </div>
-                    <div class="col border">
-                        Options
-                    </div>
-                    <div class="col border">
-                        Answer
-                    </div>
+                <div class="text-container card-text ">
+                    <p class="item1">Question</p>
+                    <p class="item2">Options</p>
+                    <p class="item3">Answer</p>
                 </div>
-                <div class="row mb-3 border">
-                    <div class="col border">
+                <div class="question-container card-text mb">
+                    <p class="item1">
                         <%= multChoice.question %>
-                    </div>
-                    <div class="col border">
+                    </p>
+                    <p class="item2">
                         <%= multChoice.options %>
-                    </div>
-                    <div class="col border">
+                    </p>
+                    <p>
                         <%= multChoice.answer %>
-                    </div>
+                    </p>
                 </div>
+
+
                 <% } %>
-
-
-                    <script type="text/javascript" src="../controller/show.js"></script>

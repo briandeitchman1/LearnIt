@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const StudyPage = require("./models/studyPage");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")
-const cookieParser = require("cookie-parser");
+//const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const passport = require("passport");
@@ -49,7 +49,7 @@ app.use('/sounds', express.static(path.join(__dirname, 'sounds')))
 app.use('/styles', express.static(path.join(__dirname, 'styles')))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser());
+//app.use(cookieParser());
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
@@ -105,12 +105,18 @@ app.get('/', (req, res) => {
 app.get("/about", (req, res) => {
     res.render("about")
 })
+
+// list of subjects that will be passed to the ejs file
 subjects = ["art", "biology", "chemistry", "english", "math", "nursing", "science", "other"]
 app.get("/new", isLoggedIn, (req, res) => {
     res.render('new', { subjects });
 })
+
+
 app.post("/new", isLoggedIn, async (req, res) => {
-    const { flashCardTerm, flashCardDefinition, multChoiceQuestion, multChoiceOption1, multChoiceOption2, multChoiceOption3, multChoiceOption4, multChoiceAnswer, title, subject } = req.body;
+    const { flashCardTerm, flashCardDefinition, multChoiceQuestion, multChoiceOption1,
+        multChoiceOption2, multChoiceOption3, multChoiceOption4, multChoiceAnswer, title, subject } = req.body;
+
     const newStudyPage = new StudyPage();
     newStudyPage.title = title;
     newStudyPage.subject = subject;
@@ -142,7 +148,7 @@ app.post("/new", isLoggedIn, async (req, res) => {
     const user = await User.findById(req.user._id);
     user.studyPages.push(newStudyPage._id);
     await user.save();
-    //
+
     console.log(req.body);
     console.log(req.user._id);
 
@@ -250,7 +256,11 @@ app.post("/register", async (req, res, next) => {
 app.get("/login", (req, res) => {
     res.render("users/login");
 })
-app.post("/login", passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), async (req, res) => {
+app.post("/login", passport.authenticate("local", {
+    failureFlash: true,
+    failureRedirect: "/login"
+}), async (req, res) => {
+
     req.flash("success", "Welcome back!");
     const redirectUrl = req.session.returnTo || "/study"
     delete req.session.returnTo;

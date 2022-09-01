@@ -12,8 +12,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&family=Roboto:wght@100;400&display=swap"
         rel="stylesheet">
-     <link rel="stylesheet" href="../../styles/styles.css">
+    <link rel="stylesheet" href="../../styles/show.css">
 </head>
+<!-- for some reason VScode auto formats the inlcude to have a space in the path and that breaks the program.
+     for me if I press ctrl k then ctrl shift s it saves with out auto formating.
+      when you save ("../../partials/navbar")  becomes (".. /../partials/navbar") 
+      so you need to make sure that space is deleted in every include.
+-->
 <%-include("../../partials/navbar") %>
 
     <body class="d-flex flex-column vh-100">

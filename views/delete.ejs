@@ -1,6 +1,6 @@
-<% layout("./layouts/boilerplate") %>
+<% layout("./layouts/showPageBP") %>
 
-    <h1>DELETE PAGE</h1>
+    <h1 class="card-body">DELETE PAGE</h1>
     <form action="/study/<%=studyPage._id%>?_method=DELETE" method="POST">
         <div class="mb-3">
             <button class="btn btn-danger">Delete the whole page</button>
@@ -20,9 +20,10 @@
                             <%= card.definition %>
                         </div>
                     </div>
-                    <div class="form-check-inline">
-                        <label for="flashcard-<%=i%>">Delete?</label>
-                        <input type="checkbox" id="flashcard-<%=i%>" name="deleteCards[]" value="<%=card._id%>">
+                    <div class="form-check-inline  peach">
+                        <label class="peach" for="flashcard-<%=i%>">Delete?</label>
+                        <input class="peach" type="checkbox" id="flashcard-<%=i%>" name="deleteCards[]"
+                            value="<%=card._id%>">
                     </div>
                 </div>
 
@@ -31,35 +32,29 @@
 
 
                         <br>
-
-                        <% studyPage.multChoice.forEach((mult,i)=>{ %>
-                            <div class="row  border">
-                                <div class="col border">
-                                    Question
-                                </div>
-                                <div class="col border">
-                                    Options
-                                </div>
-                                <div class="col border">
-                                    Answer
-                                </div>
+                        <% studyPage.multChoice.forEach((multChoice,i)=>{ %>
+                            <div class="text-container card-text ">
+                                <p class="item1">Question</p>
+                                <p class="item2">Options</p>
+                                <p class="item3">Answer</p>
                             </div>
-                            <div class="row mb-3 border">
-                                <div class="col border">
-                                    <%= mult.question %>
-                                </div>
-                                <div class="col border">
-                                    <%= mult.options %>
-                                </div>
-                                <div class="col border">
-                                    <%= mult.answer %>
-                                </div>
-                                <div class="form-check-inline">
-                                    <label for="mult-<%=i%>">Delete?</label>
-                                    <input type="checkbox" id="mult-<%=i%>" name="deleteMult[]" value="<%=mult._id%>">
-                                </div>
+                            <div class="question-container card-text ">
+                                <p class="item1">
+                                    <%= multChoice.question %>
+                                </p>
+                                <p class="item2">
+                                    <%= multChoice.options %>
+                                </p>
+                                <p>
+                                    <%= multChoice.answer %>
+                                </p>
                             </div>
-                            <% }); %>
+                            <div class="form-check-inline slategray mb">
+                                <label for="mult-<%=i%>">Delete?</label>
+                                <input type="checkbox" id="mult-<%=i%>" name="deleteMult[]" value="<%=multChoice._id%>">
+                            </div>
 
+                            <% } )%>
+                                <br>
                                 <button class="btn btn-info"> delete flashcards/questions </button>
     </form>

@@ -1,21 +1,18 @@
-<% layout("./layouts/boilerplate") %>
-    <style>
-        img {
-            max-width: 200px;
-            height: 200px;
-        }
-    </style>
-    <% for( let studyPage of studyPages) { %>
-        <div class="card">
-            <img src="../images/<%= studyPage.subject %>.jpg" class="card-img-top">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <%=studyPage.title%>
-                </h5>
-                <p class="card-text">
-                    <%= studyPage.subject %>
-                </p>
-                <a href="./study/<%= studyPage._id %>" class="btn btn-primary">Go to page</a>
+<% layout("./layouts/indexBP") %>
+    <div class="container">
+        <% for( let studyPage of studyPages) { %>
+            <div class="card">
+                <img src="../images/<%= studyPage.subject %>.jpg" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%=studyPage.title%>
+                    </h5>
+                    <p class="card-text">
+                        <%= studyPage.subject %>
+                    </p>
+                    <a href="./study/<%= studyPage._id %>" class="btn btn-primary">Go to page</a>
+                </div>
             </div>
-        </div>
-        <% } %>
+            <% } %>
+
+    </div>

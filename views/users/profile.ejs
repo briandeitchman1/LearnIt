@@ -1,6 +1,6 @@
-<% layout("./layouts/boilerplate") %>
-    <h1>
-        <%= user.username %>s profile
+<% layout("./layouts/showPageBP") %>
+    <h1 class="card-body">
+        User: <%= user.username %>
     </h1>
     <% for(let studyPage of user.studyPages){ %>
         <div class="card">

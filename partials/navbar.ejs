@@ -27,11 +27,7 @@
         </div>
         <div class="navebar-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <%if (currentUser){ %>
-                        <%= currentUser.username%>
-                            <% } %>
-                </li>
+
                 <% if(!currentUser){ %>
                     <li class="nav-item">
                         <a href="/login" class="nav-link">Login</a>
